@@ -8,13 +8,19 @@ class stack
 	peek: =>
 		@s[@n]
 
-	push: (x) =>
-		@n += 1
-		@s[@n] = x
+	push: (...) =>
+		for n = 1, #arg do
+			@n += 1
+			@s[@n] = arg[n]
 
-	pop: =>
-		if @n > 0
-			x = @s[@n]
-			@s[@n] = nil
-			@n -= 1
-			x
+	pop: (n = 1) =>
+		x = {}
+		while n > 0 do
+			if @n > 0
+				table.insert x, @s[@n]
+				@s[@n] = nil
+				@n -= 1
+				x
+			n -= 1
+
+		unpack x
