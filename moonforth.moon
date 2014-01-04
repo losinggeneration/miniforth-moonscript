@@ -8,26 +8,17 @@ class MoonForth extends MiniForth
 		@add_words {
 			"?DUP": -> @DS\push @DS\peek! if @DS\peek! ~= 0
 			"2DUP": ->
-				s1, s2 = @DS\pop!, @DS\pop!
-				@DS\push s2
-				@DS\push s1
-				@DS\push s2
-				@DS\push s1
+				s1, s2 = @DS\pop 2
+				@DS\push s2, s1, s2, s1
 			"DUP": -> @DS\push @DS\peek! if @DS\peek!
-			"2DROP": ->
-				@DS\pop!
-				@DS\pop!
+			"2DROP": -> @DS\pop 2
 			"DROP": -> @DS\pop!
 			"ROT": ->
-				f, s, t = @DS\pop!, @DS\pop!, @DS\pop!
-				@DS\push f
-				@DS\push t
-				@DS\push s
+				f, s, t = @DS\pop 3
+				@DS\push f, t, s
 			"SWAP": ->
-				f, s = @DS\pop!, @DS\pop!
-				@DS\push f
-				@DS\push s
-
+				f, s = @DS\pop! 2
+				@DS\push f, s
 
 			"+": -> @DS\push @DS\pop! + @DS\pop!
 			"-": ->
@@ -55,8 +46,8 @@ class MoonForth extends MiniForth
 			".": -> io.write " " .. @DS\pop!
 
 			"ABS": -> @DS\push math.abs @DS\pop!
-			"MAX": -> @DS\push math.max @DS\pop!, @DS\pop!
-			"MIN": -> @DS\push math.min @DS\pop!, @DS\pop!
+			"MAX": -> @DS\push math.max @DS\pop 2
+			"MIN": -> @DS\push math.min @DS\pop 2
 
 			"": -> @mode = "stop"
 		}
