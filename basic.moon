@@ -29,12 +29,14 @@ class MoonForth extends MiniForth
 			"DUP": -> @DS\push @DS\peek! if @DS\peek!
 			"*": -> @DS\push @DS\pop! * @DS\pop!
 			".": -> io.write " " .. @DS\pop!
-			"5": -> @DS\push 5
+			"": -> @mode = "stop"
 		}
 
---	interpret_number: =>
---		number = @parse_by_pattern "^(%d+)()"
---		@DS\push tonumber number if number
+	interpret_number: =>
+		number = tonumber @word
+		if number then
+			@DS\push(number)
+			true
 
 mf = MoonForth!
 mf\subject [[ 5 DUP * . ]]
