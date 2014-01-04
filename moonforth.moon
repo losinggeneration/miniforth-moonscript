@@ -8,8 +8,7 @@ class MoonForth extends MiniForth
 		@add_words {
 			"?DUP": -> @DS\push @DS\peek! if @DS\peek! ~= 0
 			"2DUP": ->
-				s1 = @DS\pop!
-				s2 = @DS\pop!
+				s1, s2 = @DS\pop!, @DS\pop!
 				@DS\push s2
 				@DS\push s1
 				@DS\push s2
@@ -20,15 +19,12 @@ class MoonForth extends MiniForth
 				@DS\pop!
 			"DROP": -> @DS\pop!
 			"ROT": ->
-				f = @DS\pop!
-				s = @DS\pop!
-				t = @DS\pop!
+				f, s, t = @DS\pop!, @DS\pop!, @DS\pop!
 				@DS\push f
 				@DS\push t
 				@DS\push s
 			"SWAP": ->
-				f = @DS\pop!
-				s = @DS\pop!
+				f, s = @DS\pop!, @DS\pop!
 				@DS\push f
 				@DS\push s
 
