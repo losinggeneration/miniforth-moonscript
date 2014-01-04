@@ -1,11 +1,12 @@
-moonscript = require "moonscript"
+import extend from require "moon"
 
 export ^
 
 class MiniForth
-	new: (subj = "", pos = 1) =>
-		@subj, @pos = subj, pos
-		@F = {"%M": -> @@eval @parse_rest_of_line!}
+	new: (subj = "") =>
+		@subject = subj
+		@position = 1
+		@dictionary = {}
 		@mode = "interpret"
 		@modes = {interpret: ->
 			@word = @get_word_or_newline! or ""
@@ -13,14 +14,12 @@ class MiniForth
 			@interpret_primitive! or @interpret_nonprimitive! or @interpret_number! or error string.format[[Can't interpret: "%s"]], @word
 		}
 
-	@eval: (code) => assert(moonscript.loadstring code)!
-
-	subject: (s) => @subj = s
+	add_words: (words) => extend(@dictionary, words)
 
 	parse_by_pattern: (pat) =>
-		cap, newpos = string.match @subj, pat, @pos
+		cap, newpos = string.match @subject, pat, @position
 		if newpos
-			@pos = newpos
+			@position = newpos
 			cap
 
 	parse_spaces: => @parse_by_pattern "^([ \t]*)()"
@@ -37,12 +36,11 @@ class MiniForth
 		@parse_spaces!
 		@parse_word_or_newline!
 
-	run: => while @mode != "stop" do @modes[@mode]!
-
-	interpret_primitive: => if type(@F[@word]) == "function" then
-		@F[@word]!
+	interpret_primitive: => if type(@dictionary[@word]) == "function" then
+		@dictionary[@word]!
 		true
 
 	interpret_nonprimitive: => false
 	interpret_number: => false
 	p_s_i: =>
+	run: => while @mode != "stop" do @modes[@mode]!

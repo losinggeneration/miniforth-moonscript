@@ -1,12 +1,11 @@
 require "miniforth"
 require "stack"
-import extend from require "moon"
 
 class MoonForth extends MiniForth
-	new: =>
-		super!
+	new: (subj = "") =>
+		super subj
 		@DS = stack!
-		extend @F, {
+		@add_words {
 			"DUP": -> @DS\push @DS\peek! if @DS\peek!
 			"*": -> @DS\push @DS\pop! * @DS\pop!
 			".": -> io.write " " .. @DS\pop!
@@ -16,9 +15,8 @@ class MoonForth extends MiniForth
 	interpret_number: =>
 		number = tonumber @word
 		if number then
-			@DS\push(number)
+			@DS\push number
 			true
 
-mf = MoonForth!
-mf\subject [[ 5 DUP * . ]]
+mf = MoonForth [[ 5 DUP * . ]]
 mf\run!
