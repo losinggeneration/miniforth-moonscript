@@ -1,5 +1,5 @@
-require "miniforth"
-require "stack"
+import MiniForth from require "miniforth"
+import stack from require "stack"
 
 class MoonForth extends MiniForth
 	new: (subj = "") =>

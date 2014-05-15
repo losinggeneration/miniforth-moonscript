@@ -1,7 +1,5 @@
 import extend from require "moon"
 
-export ^
-
 class MiniForth
 	new: (subj = "") =>
 		@subject = subj
@@ -44,3 +42,5 @@ class MiniForth
 	interpret_number: => false
 	p_s_i: =>
 	run: => while @mode != "stop" do @modes[@mode]!
+
+{ :MiniForth }

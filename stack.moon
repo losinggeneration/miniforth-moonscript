@@ -1,5 +1,3 @@
-export stack
-
 class stack
 	new: =>
 		@s = {}
@@ -8,6 +6,7 @@ class stack
 		@s[#@s]
 
 	push: (...) =>
+		arg = {...}
 		for n = 1, #arg do
 			@s[#@s + 1] = arg[n]
 
@@ -19,3 +18,5 @@ class stack
 				@s[#@s] = nil
 			n -= 1
 		unpack x
+
+{ :stack }
