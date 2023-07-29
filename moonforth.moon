@@ -4,8 +4,23 @@ import stack from require "stack"
 class MoonForth extends MiniForth
 	new: (subj = "") =>
 		super subj
+		eval = (str, chunkname) ->
+			load = if loadstring
+				loadstring
+			else
+				load
+
+			-- set up the environment
+			with _G
+				.self = @
+				.dictionary = @dictionary
+				.DS = @DS
+				.eval = eval
+
+			load str, chunkname
+
 		@DS = stack!
-		@add_words {
+		@add_words
 			"?DUP": -> @DS\push @DS\peek! if @DS\peek! ~= 0
 			"2DUP": ->
 				s1, s2 = @DS\pop 2
@@ -49,8 +64,10 @@ class MoonForth extends MiniForth
 			"MAX": -> @DS\push math.max @DS\pop 2
 			"MIN": -> @DS\push math.min @DS\pop 2
 
+			"%L": -> assert(eval(@parse_rest_of_line!, "%L"))({})
+			"[L": -> assert(eval(@parse_by_pattern "^(.-)%sL]()", "[L"))()
 			"": -> @mode = "stop"
-		}
+			"\n": ->
 
 	interpret_number: =>
 		number = tonumber @word
