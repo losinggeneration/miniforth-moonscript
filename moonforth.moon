@@ -75,5 +75,4 @@ class MoonForth extends MiniForth
 			@DS\push number
 			true
 
-mf = MoonForth [[ 4 1+ DUP * . ]]
-mf\run!
+{ :MoonForth }
