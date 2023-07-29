@@ -12,7 +12,7 @@ class MiniForth
 			@interpret_primitive! or @interpret_nonprimitive! or @interpret_number! or error string.format([[Can't interpret: "%s"]], @word)
 		}
 
-	add_words: (words) => extend(@dictionary, words)
+	add_words: (words) => @dictionary = extend(words, @dictionary)
 
 	parse_by_pattern: (pat) =>
 		cap, newpos = string.match @subject, pat, @position
