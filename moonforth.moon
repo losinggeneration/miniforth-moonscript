@@ -21,6 +21,11 @@ class MoonForth extends MiniForth
 
 		@DS = stack!
 		@add_words
+			"%L": -> assert(eval(@parse_rest_of_line!, "%L"))({})
+			"\n": ->
+			"": -> @mode = "stop"
+			"[L": -> assert(eval(@parse_by_pattern "^(.-)%sL]()", "[L"))()
+
 			"?DUP": -> @DS\push @DS\peek! if @DS\peek! ~= 0
 			"2DUP": ->
 				s1, s2 = @DS\pop 2
@@ -63,11 +68,6 @@ class MoonForth extends MiniForth
 			"ABS": -> @DS\push math.abs @DS\pop!
 			"MAX": -> @DS\push math.max @DS\pop 2
 			"MIN": -> @DS\push math.min @DS\pop 2
-
-			"%L": -> assert(eval(@parse_rest_of_line!, "%L"))({})
-			"[L": -> assert(eval(@parse_by_pattern "^(.-)%sL]()", "[L"))()
-			"": -> @mode = "stop"
-			"\n": ->
 
 	interpret_number: =>
 		number = tonumber @word
