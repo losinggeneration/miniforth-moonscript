@@ -9,7 +9,7 @@ class MiniForth
 		@modes = {interpret: ->
 			@word = @get_word_or_newline! or ""
 			@p_s_i!
-			@interpret_primitive! or @interpret_nonprimitive! or @interpret_number! or error string.format[[Can't interpret: "%s"]], @word
+			@interpret_primitive! or @interpret_nonprimitive! or @interpret_number! or error string.format([[Can't interpret: "%s"]], @word)
 		}
 
 	add_words: (words) => extend(@dictionary, words)
